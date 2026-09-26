@@ -1,0 +1,8 @@
+{
+  "name": "Student Performance Predictor",
+  "description": "Predict student academic performance based on study hours, attendance, previous marks, assignments, and internal scores.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

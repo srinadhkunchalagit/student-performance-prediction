@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Report • <%= record.student_name %> • Student Performance Predictor</title>
+    <meta name="description" content="Official Academic Performance Report for <%= record.student_name %> (<%= record.branch %>).">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="report-view-body">
+    <div class="container report-container">
+        <div class="report-top-nav">
+            <a href="/" class="back-link">← Back to Predictor</a>
+            <button type="button" class="action-btn pdf-btn" onclick='downloadCurrentReport(<%= JSON.stringify(record) %>)'>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download PDF Report
+            </button>
+        </div>
+
+        <header class="app-header report-header">
+            <div class="header-badge">Official Academic Evaluation Record</div>
+            <h1>Student Academic Performance Report</h1>
+            <p class="subtitle">Report Reference: #SPR-<%= String(record.id).padStart(5, '0') %> • Issued: <%= record.created_at %></p>
+        </header>
+
+        <div class="result-card" style="margin-top: 10px;">
+            <div class="result-header">
+                <div class="result-badge-wrap">
+                    <span class="result-label">Predicted Result:</span>
+                    <span class="prediction-badge <%= record.prediction === 'PASS' ? 'badge-pass' : 'badge-fail' %>">
+                        <%= record.prediction %>
+                    </span>
+                </div>
+                <div class="confidence-wrap">
+                    <span class="confidence-title">Estimated Success Index:</span>
+                    <span class="confidence-val"><%= record.confidence %>%</span>
+                </div>
+            </div>
+
+            <div class="result-details">
+                <div class="report-meta-grid">
+                    <div><strong>Student Name:</strong> <%= record.student_name %></div>
+                    <div><strong>Branch:</strong> <%= record.branch %></div>
+                    <div><strong>Student Phone:</strong> <%= record.student_mobile %></div>
+                    <div><strong>Parent / Guardian:</strong> <%= record.parent_name %></div>
+                    <div><strong>Parent Contact:</strong> <%= record.parent_mobile %></div>
+                    <div><strong>Evaluation Date:</strong> <%= record.created_at %></div>
+                </div>
+
+                <h3 style="font-size: 15px; margin: 20px 0 10px; color: #1e293b;">Academic Evaluation Factors</h3>
+                <div class="academic-summary-bar">
+                    <div class="metric-chip">
+                        <span class="chip-label">Daily Study</span>
+                        <span class="chip-val"><%= record.study_hours %> hrs/day</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="chip-label">Attendance</span>
+                        <span class="chip-val"><%= record.attendance %>%</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="chip-label">Previous Marks</span>
+                        <span class="chip-val"><%= record.previous_marks %> / 70</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="chip-label">Assignments</span>
+                        <span class="chip-val"><%= record.assignment_score %> / 5</span>
+                    </div>
+                    <div class="metric-chip">
+                        <span class="chip-label">Internals</span>
+                        <span class="chip-val"><%= record.internal_marks %> / 30</span>
+                    </div>
+                </div>
+
+                <div class="recommendation-box" style="margin-top: 15px;">
+                    <strong>💡 Faculty Advisory & Recommendations:</strong>
+                    <p><%= record.recommendation %></p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Student Performance Predictor • Digital Report Authenticated System</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        function downloadCurrentReport(data) {
+            generateReportPdfFromData(data);
+        }
+    </script>
+</body>
+</html>

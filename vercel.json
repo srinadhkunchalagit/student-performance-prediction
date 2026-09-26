@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "functions": {
+    "api/*.ts": {
+      "includeFiles": "views/**,static/**,public/**"
+    },
+    "api/*.js": {
+      "includeFiles": "views/**,static/**,public/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/index"
+    }
+  ]
+}
